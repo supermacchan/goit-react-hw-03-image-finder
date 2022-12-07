@@ -1,13 +1,17 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import css from './ImageGallery.module.css';
 import { ImageGalleryItem } from './ImageGalleryItem';
 
 export class ImageGallery extends Component {
+    static propTypes = {
+        data: PropTypes.string.isRequired,
+    };
+
     state = {
         images: null,
     };
-    
+
     componentDidUpdate(prevProps, prevState) {
         const API_KEY = '30551653-aa9d35c8f88064a7bc9ad69bf';
         const query = this.props.data;

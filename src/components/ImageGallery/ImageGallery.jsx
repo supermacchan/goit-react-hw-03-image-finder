@@ -16,7 +16,6 @@ export class ImageGallery extends Component {
     state = {
         images: null,
         loading: false,
-        error: null,
         showButton: false,
     };
 
@@ -48,7 +47,7 @@ export class ImageGallery extends Component {
                 }
                 toast.error('Oops! No matches found.');
             })
-            .catch(error => this.setState({ error }))
+            .catch(error => toast.error(`${error.message}`))
             .finally(() => this.setState({ loading: false }));
     };
 
@@ -58,7 +57,7 @@ export class ImageGallery extends Component {
         });
 
         const query = this.props.data;
-        
+
         imageAPI
             .fetchImages(query)
             .then(images => {
@@ -75,18 +74,16 @@ export class ImageGallery extends Component {
                     toast.info("Looks like you've reached the end of search results.");
                 }
             })
-            .catch(error => this.setState({ error }))
+            .catch(error => toast.error(`${error.message}`))
             .finally(() => this.setState({ loading: false }));
     }
 
     render() {
-        const { images, loading, error, showButton } = this.state;
+        const { images, loading, showButton } = this.state;
 
         return (
             <>
                 <ul className={css.imageGallery}>
-                    {error && toast.error(`${error.message}`)}
-                
                     {images && images.map(image => {
                         return <ImageGalleryItem
                             key={image.id}

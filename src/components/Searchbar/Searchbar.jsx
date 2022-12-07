@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import css from './Searchbar.module.css';
 import { BsSearch } from 'react-icons/bs';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export class Searchbar extends Component {
@@ -15,13 +17,14 @@ export class Searchbar extends Component {
 
     hadleInputChange = event => {
         this.setState({
-            value: event.currentTarget.value,
+            value: event.currentTarget.value.toLowerCase(),
         })
     }
 
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.value.trim() === '') {
+            toast.error('Enter search query.')
             this.reset();
             return;
         }

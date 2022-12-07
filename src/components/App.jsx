@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from "./Searchbar/ImageGallery/ImageGallery";
+import { ToastContainer } from 'react-toastify';
 
 
 export class App extends Component {
@@ -17,6 +18,13 @@ export class App extends Component {
       <>
         <Searchbar onSubmit={this.formSubmitHandler} />
         <ImageGallery data={this.state.value} />
+
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          theme="colored"
+        />
+          
       </>
     );
   };

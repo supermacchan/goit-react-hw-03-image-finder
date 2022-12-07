@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import css from './ImageGallery.module.css';
 import { ImageGalleryItem } from './ImageGalleryItem';
-import { RotatingLines } from 'react-loader-spinner';
+import { Loader } from 'components/Loader/Loader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Button } from 'components/Button/Button';
 
 export class ImageGallery extends Component {
     static propTypes = {
@@ -52,23 +53,21 @@ export class ImageGallery extends Component {
         const { images, loading, error } = this.state;
 
         return (
-            <ul className={css.imageGallery}>
-                {loading &&
-                    <RotatingLines
-                        strokeColor="grey"
-                        strokeWidth="5"
-                        animationDuration="0.75"
-                        width="96"
-                        visible={true}
-                    />}
-                {error && toast.error(`${error.message}`)}
-                {images && images.hits.map(image => {
-                    return <ImageGalleryItem
-                        key={image.id}
-                        url={image.webformatURL}
-                    />
-                })}
-            </ul>
+            <>
+                <ul className={css.imageGallery}>
+                    {loading && <Loader />}
+
+                    {error && toast.error(`${error.message}`)}
+                
+                    {images && images.hits.map(image => {
+                        return <ImageGalleryItem
+                            key={image.id}
+                            url={image.webformatURL}
+                        />
+                    })}
+                </ul>
+                {images && <Button />}
+            </>
         );
     };
 };

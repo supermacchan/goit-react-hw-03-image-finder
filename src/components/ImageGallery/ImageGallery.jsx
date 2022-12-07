@@ -53,7 +53,12 @@ export class ImageGallery extends Component {
     };
 
     loadMoreClick = () => {
+        this.setState({
+                loading: true,
+        });
+
         const query = this.props.data;
+        
         imageAPI
             .fetchImages(query)
             .then(images => {
@@ -80,8 +85,6 @@ export class ImageGallery extends Component {
         return (
             <>
                 <ul className={css.imageGallery}>
-                    {loading && <Loader />}
-
                     {error && toast.error(`${error.message}`)}
                 
                     {images && images.map(image => {
@@ -92,6 +95,8 @@ export class ImageGallery extends Component {
                             largeImage={image.largeImageURL}
                         />
                     })}
+
+                    {loading && <Loader />}
                 </ul>
                 {showButton && <Button onClick={this.loadMoreClick} />}
             </>

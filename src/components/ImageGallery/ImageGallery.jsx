@@ -25,7 +25,8 @@ export class ImageGallery extends Component {
         if (prevProps.data !== this.props.data) {
             this.setState({
                 loading: true,
-                images: null
+                images: null,
+                showButton: false,
             });
             imageAPI.resetPageNumber();
             this.fetchGallery();

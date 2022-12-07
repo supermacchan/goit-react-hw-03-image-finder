@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import css from './Searchbar.module.css';
+import { BsSearch } from 'react-icons/bs';
+
 
 export class Searchbar extends Component {
     static propTypes = {
@@ -41,6 +43,7 @@ export class Searchbar extends Component {
                     onSubmit={this.handleFormSubmit}
                 >
                     <button type="submit" className={css.searchFormButton}>
+                        <BsSearch />
                         <span className={css.searchFormButtonLabel}>Search</span>
                     </button>
 

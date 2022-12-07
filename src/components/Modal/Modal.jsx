@@ -13,8 +13,8 @@ export class Modal extends Component {
         const modalRoot = document.querySelector('#modal-root');
         
         return createPortal(
-            <div class={css.overlay}>
-                <div class={css.modal}>
+            <div className={css.overlay}>
+                <div className={css.modal}>
                     <img src={largeImage} alt={alt} />
                 </div>
             </div>,

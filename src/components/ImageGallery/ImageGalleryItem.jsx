@@ -7,18 +7,30 @@ export class ImageGalleryItem extends Component {
     static propTypes = {
         url: PropTypes.string.isRequired,
         alt: PropTypes.string.isRequired,
+        largeImage: PropTypes.string.isRequired,
     };
 
     state = {
         showModal: false,
     };
 
+    toggleModal = () => {
+        this.setState(prevState => {
+            return {
+                showModal: !prevState.showModal,
+            }
+        })
+    }
+
     render() {
         const { url, alt, largeImage } = this.props;
 
         return (
             <>
-                <li className={css.imageGalleryItem}>
+                <li
+                    className={css.imageGalleryItem}
+                    onClick={this.toggleModal}
+                >
                     <img
                         src={url}
                         alt={alt}

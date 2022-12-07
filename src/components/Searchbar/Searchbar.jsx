@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import css from './Searchbar.module.css';
 import { BsSearch } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import css from './Searchbar.module.css';
 
 
 export class Searchbar extends Component {

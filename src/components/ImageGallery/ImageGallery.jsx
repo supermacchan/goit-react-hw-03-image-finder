@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import { animateScroll } from 'react-scroll';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import css from './ImageGallery.module.css';
-import { animateScroll } from 'react-scroll';
 
 import { ImageGalleryItem } from './ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';

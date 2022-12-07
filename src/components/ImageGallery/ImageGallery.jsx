@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import css from './ImageGallery.module.css';
-import { ImageGalleryItem } from './ImageGalleryItem';
-import { Loader } from 'components/Loader/Loader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import css from './ImageGallery.module.css';
+
+import { ImageGalleryItem } from './ImageGalleryItem';
+import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
 import { imageAPI } from 'services/image-api';
 

@@ -21,7 +21,6 @@ export class ImageGallery extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        // const query = this.props.data;
         if (prevProps.data !== this.props.data) {
             this.setState({
                 loading: true,
@@ -37,7 +36,12 @@ export class ImageGallery extends Component {
         imageAPI
             .fetchImages(query)
             .then(images => {
-                if (images.hits.length > 0) {
+                console.log(images);
+                if (images.hits.length > 0 && images.totalHits <= 12) {
+                    console.log(images.hits);
+                    this.setState({ images });
+                    return;
+                } else if (images.hits.length > 0 && images.totalHits > 12) {
                     console.log(images.hits);
                     this.setState({ images, showButton: true });
                     return;

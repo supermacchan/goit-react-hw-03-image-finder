@@ -63,6 +63,7 @@ export class ImageGallery extends Component {
                         return <ImageGalleryItem
                             key={image.id}
                             url={image.webformatURL}
+                            alt={image.tags}
                         />
                     })}
                 </ul>

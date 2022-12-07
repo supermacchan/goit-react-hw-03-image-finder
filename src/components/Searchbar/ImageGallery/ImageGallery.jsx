@@ -16,11 +16,10 @@ export class ImageGallery extends Component {
         const API_KEY = '30551653-aa9d35c8f88064a7bc9ad69bf';
         const query = this.props.data;
         if (prevProps.data !== this.props.data) {
-
-        }
-        fetch(`https://pixabay.com/api/?q=${query}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
+            fetch(`https://pixabay.com/api/?q=${query}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
             .then(result => result.json())
             .then(images => this.setState({ images }));
+        } 
     };
 
     render() {

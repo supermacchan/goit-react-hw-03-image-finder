@@ -95,9 +95,8 @@ export class ImageGallery extends Component {
                             largeImage={image.largeImageURL}
                         />
                     })}
-
-                    {loading && <Loader />}
                 </ul>
+                {loading && <Loader />}
                 {showButton && <Button onClick={this.loadMoreClick} />}
             </>
         );

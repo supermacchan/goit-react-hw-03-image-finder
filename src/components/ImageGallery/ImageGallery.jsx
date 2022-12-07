@@ -17,6 +17,7 @@ export class ImageGallery extends Component {
         images: null,
         loading: false,
         error: null,
+        showButton: false,
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -49,7 +50,8 @@ export class ImageGallery extends Component {
             .fetchImages(query)
             .then(images => {
                 if (images.hits.length > 0) {
-                    this.setState({ images });
+                    console.log(images.hits);
+                    this.setState({ images, showButton: true });
                     return;
                 }
                 toast.error('Oops! No matches found.');
@@ -58,12 +60,27 @@ export class ImageGallery extends Component {
             .finally(() => this.setState({ loading: false }));
     };
 
+    loadMoreImages = () => {
+        const query = this.props.data;
+        imageAPI
+            .fetchImages(query)
+            .then(images => {
+                if (images.hits.length > 0) {
+                    console.log(images.hits);
+                    return;
+                }
+                toast.info("Looks like you've reached the end of search results.");
+            })
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
+    }
+
     loadMoreClick = () => {
-        this.fetchGallery();
+        this.loadMoreImages();
     }
 
     render() {
-        const { images, loading, error } = this.state;
+        const { images, loading, error, showButton } = this.state;
 
         return (
             <>
@@ -81,7 +98,7 @@ export class ImageGallery extends Component {
                         />
                     })}
                 </ul>
-                {images && <Button onClick={this.loadMoreClick} />}
+                {showButton && <Button onClick={this.loadMoreClick} />}
             </>
         );
     };

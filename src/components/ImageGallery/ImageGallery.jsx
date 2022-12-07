@@ -36,14 +36,14 @@ export class ImageGallery extends Component {
         imageAPI
             .fetchImages(query)
             .then(images => {
-                console.log(images);
                 if (images.hits.length > 0 && images.totalHits <= 12) {
-                    console.log(images.hits);
-                    this.setState({ images });
+                    this.setState({ images: images.hits });
                     return;
                 } else if (images.hits.length > 0 && images.totalHits > 12) {
-                    console.log(images.hits);
-                    this.setState({ images, showButton: true });
+                    this.setState({
+                        images: images.hits,
+                        showButton: true,
+                    });
                     return;
                 }
                 toast.error('Oops! No matches found.');
@@ -52,13 +52,17 @@ export class ImageGallery extends Component {
             .finally(() => this.setState({ loading: false }));
     };
 
-    loadMoreImages = () => {
+    loadMoreClick = () => {
         const query = this.props.data;
         imageAPI
             .fetchImages(query)
             .then(images => {
                 if (images.hits.length > 0) {
-                    console.log(images.hits);
+                    this.setState(prevState => {
+                        return {
+                            images: [...prevState.images, ...images.hits],
+                        }
+                    })
                 }
                 
                 if (images.hits.length < 12) {
@@ -68,10 +72,6 @@ export class ImageGallery extends Component {
             })
             .catch(error => this.setState({ error }))
             .finally(() => this.setState({ loading: false }));
-    }
-
-    loadMoreClick = () => {
-        this.loadMoreImages();
     }
 
     render() {
@@ -84,7 +84,7 @@ export class ImageGallery extends Component {
 
                     {error && toast.error(`${error.message}`)}
                 
-                    {images && images.hits.map(image => {
+                    {images && images.map(image => {
                         return <ImageGalleryItem
                             key={image.id}
                             url={image.webformatURL}

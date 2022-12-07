@@ -29,18 +29,6 @@ export class ImageGallery extends Component {
             });
             imageAPI.resetPageNumber();
             this.fetchGallery();
-            // imageAPI.resetPageNumber();
-            // imageAPI
-            //     .fetchImages(query)
-            //     .then(images => {
-            //         if (images.hits.length > 0) {
-            //             this.setState({ images });
-            //             return;
-            //         }
-            //         toast.error('Oops! No matches found.');
-            //     })
-            //     .catch(error => this.setState({ error }))
-            //     .finally(() => this.setState({ loading: false }));
         } 
     };
 
@@ -67,9 +55,12 @@ export class ImageGallery extends Component {
             .then(images => {
                 if (images.hits.length > 0) {
                     console.log(images.hits);
-                    return;
                 }
-                toast.info("Looks like you've reached the end of search results.");
+                
+                if (images.hits.length < 12) {
+                    this.setState({ showButton: false });
+                    toast.info("Looks like you've reached the end of search results.");
+                }
             })
             .catch(error => this.setState({ error }))
             .finally(() => this.setState({ loading: false }));

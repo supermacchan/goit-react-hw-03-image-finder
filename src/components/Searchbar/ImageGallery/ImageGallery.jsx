@@ -24,10 +24,13 @@ export class ImageGallery extends Component {
 
     render() {
          return (
-            <ul className={css.imageGallery}>
-            {/* <!-- Набор <li> с изображениями -->
-            Будем делать тут map получаемого массива и для каждой единицы рендерить айтем */}
-                <ImageGalleryItem />
+             <ul className={css.imageGallery}>
+                 {this.state.images && this.state.images.hits.map(image => {
+                     return <ImageGalleryItem
+                         key={image.id}
+                         url={image.webformatURL}
+                     />
+                 })}
             </ul>
         );
     };

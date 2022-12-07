@@ -6,6 +6,7 @@ import { Loader } from 'components/Loader/Loader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'components/Button/Button';
+import { imageAPI } from 'services/image-api';
 
 export class ImageGallery extends Component {
     static propTypes = {
@@ -19,35 +20,47 @@ export class ImageGallery extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        const BASE_URL = 'https://pixabay.com/api/'
-        const API_KEY = '30551653-aa9d35c8f88064a7bc9ad69bf';
-        const query = this.props.data;
+        // const query = this.props.data;
         if (prevProps.data !== this.props.data) {
             this.setState({
                 loading: true,
                 images: null
             });
-            fetch(`${BASE_URL}?q=${query}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-
-                    return Promise.reject(
-                        new Error('Oops! No matches found.'),
-                    );
-                })
-                .then(images => {
-                    if (images.hits.length > 0) {
-                        this.setState({ images });
-                        return;
-                    }
-                    toast.error('Oops! No matches found.');
-                })
-                .catch(error => this.setState({ error }))
-                .finally(() => this.setState({ loading: false }));
+            imageAPI.resetPageNumber();
+            this.fetchGallery();
+            // imageAPI.resetPageNumber();
+            // imageAPI
+            //     .fetchImages(query)
+            //     .then(images => {
+            //         if (images.hits.length > 0) {
+            //             this.setState({ images });
+            //             return;
+            //         }
+            //         toast.error('Oops! No matches found.');
+            //     })
+            //     .catch(error => this.setState({ error }))
+            //     .finally(() => this.setState({ loading: false }));
         } 
     };
+
+    fetchGallery = () => {
+        const query = this.props.data;
+        imageAPI
+            .fetchImages(query)
+            .then(images => {
+                if (images.hits.length > 0) {
+                    this.setState({ images });
+                    return;
+                }
+                toast.error('Oops! No matches found.');
+            })
+            .catch(error => this.setState({ error }))
+            .finally(() => this.setState({ loading: false }));
+    };
+
+    loadMoreClick = () => {
+        this.fetchGallery();
+    }
 
     render() {
         const { images, loading, error } = this.state;
@@ -68,7 +81,7 @@ export class ImageGallery extends Component {
                         />
                     })}
                 </ul>
-                {images && <Button />}
+                {images && <Button onClick={this.loadMoreClick} />}
             </>
         );
     };

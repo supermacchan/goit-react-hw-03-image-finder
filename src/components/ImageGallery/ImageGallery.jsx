@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import css from './ImageGallery.module.css';
+import { animateScroll } from 'react-scroll';
 
 import { ImageGalleryItem } from './ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
@@ -63,6 +64,7 @@ export class ImageGallery extends Component {
             .fetchImages(query)
             .then(images => {
                 if (images.hits.length > 0) {
+                    animateScroll.scrollToBottom();
                     this.setState(prevState => {
                         return {
                             images: [...prevState.images, ...images.hits],

@@ -19,6 +19,7 @@ export class ImageGallery extends Component {
         images: null,
         loading: false,
         showButton: false,
+        pageNumber: 1,
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -27,24 +28,30 @@ export class ImageGallery extends Component {
                 loading: true,
                 images: null,
                 showButton: false,
+                pageNumber: 1,
             });
-            imageAPI.resetPageNumber();
+            console.log(this.state.pageNumber);
             this.fetchGallery();
         } 
     };
 
     fetchGallery = () => {
         const query = this.props.data;
+        const page = 1;
+
         imageAPI
-            .fetchImages(query)
+            .fetchImages(query, page)
             .then(images => {
                 if (images.hits.length > 0 && images.totalHits <= 12) {
                     this.setState({ images: images.hits });
                     return;
                 } else if (images.hits.length > 0 && images.totalHits > 12) {
-                    this.setState({
-                        images: images.hits,
-                        showButton: true,
+                    this.setState(prevState => {
+                        return {
+                            images: images.hits,
+                            showButton: true,
+                            pageNumber: prevState.pageNumber + 1,
+                        };
                     });
                     return;
                 }
@@ -60,21 +67,26 @@ export class ImageGallery extends Component {
         });
 
         const query = this.props.data;
+        const page = this.state.pageNumber;
 
         imageAPI
-            .fetchImages(query)
+            .fetchImages(query, page)
             .then(images => {
                 if (images.hits.length > 0) {
                     animateScroll.scrollToBottom();
                     this.setState(prevState => {
                         return {
                             images: [...prevState.images, ...images.hits],
+                            pageNumber: prevState.pageNumber + 1,
                         }
                     })
                 }
                 
                 if (images.hits.length < 12) {
-                    this.setState({ showButton: false });
+                    this.setState({
+                        showButton: false,
+                        pageNumber: 1,
+                    });
                     toast.info("Looks like you've reached the end of search results.");
                 }
             })
